@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: fact_orders
+    description: "Tabla de hechos - lineas de pedido con metricas de revenue"
+    columns:
+      - name: fact_key
+        data_tests:
+          - unique
+          - not_null
+      - name: order_key
+        data_tests:
+          - not_null
+      - name: customer_key
+        data_tests:
+          - not_null
+      - name: date_key
+        data_tests:
+          - not_null
+
+  - name: dim_customer
+    description: "Dimension cliente con geografia"
+    columns:
+      - name: customer_key
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_supplier
+    description: "Dimension proveedor con geografia"
+    columns:
+      - name: supplier_key
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_part
+    description: "Dimension pieza/producto"
+    columns:
+      - name: part_key
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_date
+    description: "Dimension fecha"
+    columns:
+      - name: date_key
+        data_tests:
+          - unique
+          - not_null

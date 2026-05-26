@@ -1,0 +1,95 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: "Staging de pedidos - carga total"
+    columns:
+      - name: order_key
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_key
+        data_tests:
+          - not_null
+      - name: order_date
+        data_tests:
+          - not_null
+
+  - name: stg_lineitem
+    description: "Staging de lineas de pedido - carga incremental por ship_date"
+    columns:
+      - name: lineitem_key
+        data_tests:
+          - unique
+          - not_null
+      - name: order_key
+        data_tests:
+          - not_null
+      - name: part_key
+        data_tests:
+          - not_null
+      - name: supplier_key
+        data_tests:
+          - not_null
+      - name: ship_date
+        data_tests:
+          - not_null
+
+  - name: stg_customer
+    description: "Staging de clientes - carga total"
+    columns:
+      - name: customer_key
+        data_tests:
+          - unique
+          - not_null
+      - name: nation_key
+        data_tests:
+          - not_null
+
+  - name: stg_supplier
+    description: "Staging de proveedores - carga total"
+    columns:
+      - name: supplier_key
+        data_tests:
+          - unique
+          - not_null
+      - name: nation_key
+        data_tests:
+          - not_null
+
+  - name: stg_part
+    description: "Staging de piezas - carga total"
+    columns:
+      - name: part_key
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_partsupp
+    description: "Staging de piezas-proveedor - carga total"
+    columns:
+      - name: part_key
+        data_tests:
+          - not_null
+      - name: supplier_key
+        data_tests:
+          - not_null
+
+  - name: stg_nation
+    description: "Staging de naciones - carga total"
+    columns:
+      - name: nation_key
+        data_tests:
+          - unique
+          - not_null
+      - name: region_key
+        data_tests:
+          - not_null
+
+  - name: stg_region
+    description: "Staging de regiones - carga total"
+    columns:
+      - name: region_key
+        data_tests:
+          - unique
+          - not_null

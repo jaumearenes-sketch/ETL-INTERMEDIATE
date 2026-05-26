@@ -1,0 +1,16 @@
+name: 'tpch_dimensional'
+version: '1.0.0'
+profile: 'tpch_dimensional'
+config-version: 2
+
+models:
+  tpch_dimensional:
+    staging:
+      +materialized: table
+      +schema: staging
+    transformation:
+      +materialized: view
+      +schema: transformation
+    business:
+      +materialized: table
+      +schema: business
