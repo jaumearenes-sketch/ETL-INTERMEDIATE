@@ -11,6 +11,11 @@ models:
       - name: customer_key
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customer')
+                field: customer_key
+
       - name: order_date
         data_tests:
           - not_null
