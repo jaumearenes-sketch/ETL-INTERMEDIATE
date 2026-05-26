@@ -44,5 +44,5 @@ SELECT
     DAYOFWEEK(date_key) AS day_of_week,
     DAYNAME(date_key) AS day_name,
     DAYOFMONTH(date_key) AS day_of_month,
-    CASE WHEN DAYOFWEEK(date_key) IN (0, 6) THEN TRUE ELSE FALSE END AS is_weekend
+    {{ expression_is_true('DAYOFWEEK(date_key) IN (0, 6)') }} AS is_weekend
 FROM calendar
