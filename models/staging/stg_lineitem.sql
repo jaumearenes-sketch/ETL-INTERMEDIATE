@@ -6,26 +6,33 @@
     )
 }}
 
-SELECT
-    L_ORDERKEY || '-' || L_LINENUMBER AS lineitem_key,
-    L_ORDERKEY AS order_key,
-    L_PARTKEY AS part_key,
-    L_SUPPKEY AS supplier_key,
-    L_LINENUMBER AS line_number,
-    L_QUANTITY AS quantity,
-    L_EXTENDEDPRICE AS extended_price,
-    L_DISCOUNT AS discount,
-    L_TAX AS tax,
-    L_RETURNFLAG AS return_flag,
-    L_LINESTATUS AS line_status,
-    L_SHIPDATE AS ship_date,
-    L_COMMITDATE AS commit_date,
-    L_RECEIPTDATE AS receipt_date,
-    L_SHIPINSTRUCT AS ship_instruct,
-    L_SHIPMODE AS ship_mode,
-    L_COMMENT AS comment
-FROM {{ source('tpch', 'LINEITEM') }}
+select
+    l_orderkey || '-' || l_linenumber as lineitem_key,
+    l_orderkey as order_key,
+    l_partkey as part_key,
+    l_suppkey as supplier_key,
+    l_linenumber as line_number,
+    l_quantity as quantity,
+    l_extendedprice as extended_price,
+    l_discount as discount,
+    l_tax as tax,
+    l_returnflag as return_flag,
+    l_linestatus as line_status,
+    l_shipdate as ship_date,
+    l_commitdate as commit_date,
+    l_receiptdate as receipt_date,
+    l_shipinstruct as ship_instruct,
+    l_shipmode as ship_mode,
+    l_comment as comment
+from {{ source('tpch', 'LINEITEM') }}
 
 {% if is_incremental() %}
-WHERE L_SHIPDATE > (SELECT MAX(ship_date) FROM {{ this }})
+    where l_shipdate >= dateadd(
+        day,
+        -30,
+        (
+            select coalesce(max(ship_date), to_date('1900-01-01'))
+            from {{ this }}
+        )
+    )
 {% endif %}

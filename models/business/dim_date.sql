@@ -44,5 +44,6 @@ SELECT
     DAYOFWEEK(date_key) AS day_of_week,
     DAYNAME(date_key) AS day_name,
     DAYOFMONTH(date_key) AS day_of_month,
-    {{ expression_is_true('DAYOFWEEK(date_key) IN (0, 6)') }} AS is_weekend
+    {{ expression_is_true('DAYOFWEEK(date_key) IN (0, 6)') }} AS is_weekend,
+    {{ expression_is_true('DAYOFWEEK(date_key) IN (0, 6)', 'MONTH(date_key) = 12') }} AS is_december_weekend
 FROM calendar
