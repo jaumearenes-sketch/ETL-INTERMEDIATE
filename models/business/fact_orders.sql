@@ -1,3 +1,5 @@
+-- Fact table for orders and line items
+
 with lineitem_enriched as (
 
     select * from {{ ref('int_lineitem_enriched') }}
