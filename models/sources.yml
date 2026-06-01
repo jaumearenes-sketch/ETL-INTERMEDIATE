@@ -4,9 +4,22 @@ sources:
   - name: tpch
     database: SNOWFLAKE_SAMPLE_DATA
     schema: TPCH_SF1
+
     tables:
       - name: ORDERS
+        config:
+          loaded_at_field: cast(O_ORDERDATE as timestamp_tz)
+          freshness:
+            warn_after: {count: 20000, period: day}
+            error_after: {count: 25000, period: day}
+
       - name: LINEITEM
+        config:
+          loaded_at_field: cast(L_SHIPDATE as timestamp_tz)
+          freshness:
+            warn_after: {count: 20000, period: day}
+            error_after: {count: 25000, period: day}
+
       - name: CUSTOMER
       - name: SUPPLIER
       - name: PART
