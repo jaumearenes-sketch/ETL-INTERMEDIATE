@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: fact_orders
-    description: "Tabla de hechos - lineas de pedido con metricas de revenue"
+    description: "Tabla de hechos a nivel de línea de pedido con métricas de revenue, logística y claves hacia las dimensiones conformadas."
     columns:
       - name: fact_key
         data_tests:
@@ -14,9 +14,52 @@ models:
       - name: customer_key
         data_tests:
           - not_null
-      - name: date_key
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_key
+      - name: part_key
         data_tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_part')
+                field: part_key
+      - name: supplier_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_supplier')
+                field: supplier_key
+      - name: order_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: ship_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: commit_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: receipt_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
 
   - name: dim_customer
     description: "Dimension cliente con geografia"

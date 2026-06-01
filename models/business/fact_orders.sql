@@ -28,7 +28,25 @@ supplier as (
 
 ),
 
-date_dim as (
+order_date_dim as (
+
+    select date_key from {{ ref('dim_date') }}
+
+),
+
+ship_date_dim as (
+
+    select date_key from {{ ref('dim_date') }}
+
+),
+
+commit_date_dim as (
+
+    select date_key from {{ ref('dim_date') }}
+
+),
+
+receipt_date_dim as (
 
     select date_key from {{ ref('dim_date') }}
 
@@ -42,8 +60,11 @@ final as (
         part.part_key,
         supplier.supplier_key,
         customer.customer_key,
-        date_dim.date_key,
-        lineitem_enriched.ship_date,
+        order_date_dim.date_key as order_date_key,
+        ship_date_dim.date_key as ship_date_key,
+        commit_date_dim.date_key as commit_date_key,
+        receipt_date_dim.date_key as receipt_date_key,
+        lineitem_enriched.line_number,
         lineitem_enriched.quantity,
         lineitem_enriched.extended_price,
         lineitem_enriched.discount,
@@ -66,7 +87,10 @@ final as (
     inner join customer on orders_enriched.customer_key = customer.customer_key
     inner join part on lineitem_enriched.part_key = part.part_key
     inner join supplier on lineitem_enriched.supplier_key = supplier.supplier_key
-    inner join date_dim on orders_enriched.order_date = date_dim.date_key
+    inner join order_date_dim on orders_enriched.order_date = order_date_dim.date_key
+    inner join ship_date_dim on lineitem_enriched.ship_date = ship_date_dim.date_key
+    inner join commit_date_dim on lineitem_enriched.commit_date = commit_date_dim.date_key
+    inner join receipt_date_dim on lineitem_enriched.receipt_date = receipt_date_dim.date_key
 
 )
 
