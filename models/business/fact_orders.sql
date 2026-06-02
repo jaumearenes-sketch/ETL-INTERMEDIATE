@@ -23,7 +23,7 @@ part as (
     select part_key from {{ ref('dim_part') }}
 
 ),
-
+--comentario para ci
 supplier as (
 
     select supplier_key from {{ ref('dim_supplier') }}
