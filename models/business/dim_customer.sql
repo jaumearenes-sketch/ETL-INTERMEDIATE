@@ -7,6 +7,7 @@ SELECT
     c.market_segment,
     n.nation_name,
     r.region_name
+    --comentario para ci--
 FROM {{ ref('stg_customer') }} c
 LEFT JOIN {{ ref('stg_nation') }} n ON c.nation_key = n.nation_key
 LEFT JOIN {{ ref('stg_region') }} r ON n.region_key = r.region_key
