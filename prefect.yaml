@@ -21,6 +21,8 @@ pull:
 - prefect.deployments.steps.git_clone:
     repository: https://github.com/jaumearenes-sketch/ETL-INTERMEDIATE
     branch: main
+- prefect.deployments.steps.pip_install_requirements:
+    requirements_file: requirements.txt
 
 # the deployments section allows you to provide configuration
 # for deploying flows
