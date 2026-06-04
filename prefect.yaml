@@ -25,7 +25,6 @@ pull:
 - prefect.deployments.steps.set_working_directory:
     directory: "{{ clone_step.directory }}"
 - prefect.deployments.steps.pip_install_requirements:
-    directory: "{{ clone_step.directory }}"
     requirements_file: requirements.txt
 
 # the deployments section allows you to provide configuration
