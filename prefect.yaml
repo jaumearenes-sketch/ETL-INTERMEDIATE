@@ -19,9 +19,13 @@ push: null
 # this project in remote locations
 pull:
 - prefect.deployments.steps.git_clone:
+    id: clone_step
     repository: https://github.com/jaumearenes-sketch/ETL-INTERMEDIATE
     branch: main
+- prefect.deployments.steps.set_working_directory:
+    directory: "{{ clone_step.directory }}"
 - prefect.deployments.steps.pip_install_requirements:
+    directory: "{{ clone_step.directory }}"
     requirements_file: requirements.txt
 
 # the deployments section allows you to provide configuration
