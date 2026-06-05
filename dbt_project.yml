@@ -3,6 +3,16 @@ version: '1.0.0'
 profile: 'tpch_dimensional'
 config-version: 2
 
+on-run-start:
+  - "INSERT INTO TPCH_DWH.PUBLIC.DBT_AUDITS (audit_type, created_at) VALUES
+    ('run_start', CAST(CONVERT_TIMEZONE('Europe/Madrid', CURRENT_TIMESTAMP()) AS TIMESTAMP_NTZ)); COMMIT;"
+
+on-run-end:
+  - "INSERT INTO TPCH_DWH.PUBLIC.DBT_AUDITS (audit_type, created_at) VALUES
+    ('run_end', CAST(CONVERT_TIMEZONE('Europe/Madrid', CURRENT_TIMESTAMP()) AS TIMESTAMP_NTZ)); COMMIT;"
+
+
+
 models:
   tpch_dimensional:
     staging:

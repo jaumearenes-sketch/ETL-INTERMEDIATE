@@ -60,6 +60,48 @@ models:
               arguments:
                 to: ref('dim_date')
                 field: date_key
+      - name: quantity
+        data_tests:
+          - not_null
+      - name: extended_price
+        data_tests:
+          - not_null
+      - name: discount
+        data_tests:
+          - not_null
+      - name: tax
+        data_tests:
+          - not_null
+      - name: net_amount
+        data_tests:
+          - not_null
+      - name: gross_amount
+        data_tests:
+          - not_null
+      - name: return_flag
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['A', 'N', 'R']
+      - name: line_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['F', 'O']
+      - name: order_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['F', 'O', 'P']
+      - name: priority_category
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['high', 'medium', 'low']
 
   - name: dim_customer
     description: "Dimension cliente con geografia"

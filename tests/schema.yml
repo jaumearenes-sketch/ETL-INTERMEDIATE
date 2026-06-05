@@ -1,0 +1,52 @@
+version: 2
+
+data_tests:
+  - name: staging__order_date_in_valid_range
+    description: >
+      Valida en la capa staging que order_date no esté en el futuro y que no sea
+      anterior al umbral mínimo definido para el proyecto. Detecta anomalías de
+      calidad en fechas antes de que impacten la transformación y el reporting.
+
+  - name: staging__order_status_in_expected_values
+    description: >
+      Valida en la capa staging que stg_orders solo contenga estados de pedido
+      esperados ('F', 'O', 'P') y que order_status no sea nulo.
+
+  - name: staging__lineitem_rates_in_valid_range
+    description: >
+      Valida en la capa staging que stg_lineitem no tenga cantidades no positivas,
+      importes negativos, descuentos fuera del rango [0,1] ni impuestos negativos.
+
+  - name: transformation__lineitem_receipt_not_before_ship_or_commit
+    description: >
+      Valida en la capa transformation que una línea de pedido no tenga receipt_date
+      anterior a ship_date ni a commit_date. Protege la lógica derivada de tiempos
+      de entrega y retraso calculada en int_lineitem_enriched.
+
+  - name: transformation__order_status_and_priority_category_mapped
+    description: >
+      Valida en la capa transformation que int_orders_enriched no deje estados ni
+      categorías de prioridad sin mapear a descripciones de negocio esperadas.
+
+  - name: transformation__return_flag_mapping_consistent
+    description: >
+      Valida en la capa transformation que el mapeo entre return_flag y
+      return_status_desc en int_lineitem_enriched sea consistente.
+
+  - name: business__fact_orders_amount_components_consistent
+    description: >
+      Valida en la capa business que las métricas monetarias de fact_orders sean
+      coherentes entre sí: discount_amount, net_amount y gross_amount deben derivarse
+      correctamente de extended_price, discount y tax. Advierte con pocos casos y
+      falla si la inconsistencia es más amplia.
+
+  - name: business__fact_orders_non_negative_and_rate_ranges
+    description: >
+      Valida en la capa business que fact_orders no contenga cantidades no positivas,
+      importes negativos, descuentos fuera del rango [0,1], impuestos negativos ni
+      métricas netas o brutas negativas.
+
+  - name: business__fact_orders_status_and_priority_in_expected_values
+    description: >
+      Valida en la capa business que fact_orders solo contenga flags, estados y
+      categorías de prioridad dentro de los valores esperados y sin nulos.
