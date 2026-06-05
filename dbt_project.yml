@@ -4,17 +4,15 @@ profile: 'tpch_dimensional'
 config-version: 2
 
 on-run-start:
-  - "INSERT INTO TPCH_DWH.PUBLIC.DBT_AUDITS (audit_type, created_at) VALUES
-    ('run_start', CAST(CONVERT_TIMEZONE('Europe/Madrid', CURRENT_TIMESTAMP()) AS TIMESTAMP_NTZ)); COMMIT;"
+  - "{{ insert_audits('run_start') }}"
 
 on-run-end:
-  - "INSERT INTO TPCH_DWH.PUBLIC.DBT_AUDITS (audit_type, created_at) VALUES
-    ('run_end', CAST(CONVERT_TIMEZONE('Europe/Madrid', CURRENT_TIMESTAMP()) AS TIMESTAMP_NTZ)); COMMIT;"
-
-
+  - "{{ insert_audits('run_end') }}"
 
 models:
   tpch_dimensional:
+    +pre-hook: "{{ insert_audits('model_start') }}"
+    +post-hook: "{{ insert_audits('model_end') }}"
     staging:
       +materialized: table
       +schema: staging
