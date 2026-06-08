@@ -98,3 +98,23 @@ models:
         data_tests:
           - unique
           - not_null
+
+
+  - name: customer_tracking
+    description: "Versión vigente de clientes desde customer_snapshot"
+    columns:
+      - name: customer_key
+        data_tests:
+          - unique
+          - not_null
+
+  - name: order_tracking
+    description: "Versión vigente de órdenes desde orders_snapshot"
+    columns:
+      - name: order_key
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_key
+        data_tests:
+          - not_null
