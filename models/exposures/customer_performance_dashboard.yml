@@ -1,0 +1,17 @@
+exposures:
+  - name: customer_performance_dashboard
+    label: Customer Performance Dashboard
+    type: dashboard
+    maturity: medium
+    url: https://your-bi-tool.example.com/dashboards/customer-performance
+    description: >
+      Dashboard de performance de clientes para seguimiento de revenue,
+      actividad y comportamiento comercial.
+
+    depends_on:
+      - ref('fact_orders')
+      - ref('dim_customer')
+
+    owner:
+      name: Analytics
+      email: analytics@example.com
