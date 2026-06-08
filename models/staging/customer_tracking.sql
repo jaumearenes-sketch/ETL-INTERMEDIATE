@@ -1,3 +1,5 @@
+{{ config(materialized='view') }}
+
 with customer_snapshot as (
 
     select *

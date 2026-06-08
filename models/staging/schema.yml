@@ -2,119 +2,270 @@ version: 2
 
 models:
   - name: stg_orders
-    description: "Staging de pedidos - carga total"
+    description: "{{ doc('stg_orders') }}"
     columns:
       - name: order_key
+        description: "{{ doc('col_order_key') }}"
         data_tests:
           - unique
           - not_null
       - name: customer_key
+        description: "{{ doc('col_customer_key') }} asociada al pedido."
         data_tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('stg_customer')
                 field: customer_key
-
+      - name: order_status
+        description: "{{ doc('col_order_status') }}"
+      - name: total_price
+        description: "{{ doc('col_total_price') }}"
       - name: order_date
+        description: "{{ doc('col_order_date') }}"
         data_tests:
           - not_null
+      - name: order_priority
+        description: "{{ doc('col_order_priority') }}"
+      - name: clerk
+        description: "{{ doc('col_clerk') }}"
+      - name: ship_priority
+        description: "{{ doc('col_ship_priority') }}"
+      - name: comment
+        description: "{{ doc('col_comment') }}"
 
   - name: stg_lineitem
-    description: "Staging de lineas de pedido - carga incremental por ship_date"
+    description: "{{ doc('stg_lineitem') }}"
     columns:
       - name: lineitem_key
+        description: Clave única de línea de pedido construida a partir de pedido y número de línea.
         data_tests:
           - unique
           - not_null
       - name: order_key
+        description: "{{ doc('col_order_key') }}"
         data_tests:
           - not_null
       - name: part_key
+        description: "{{ doc('col_part_key') }}"
         data_tests:
           - not_null
       - name: supplier_key
+        description: "{{ doc('col_supplier_key') }}"
         data_tests:
           - not_null
+      - name: line_number
+        description: "{{ doc('col_line_number') }}"
+      - name: quantity
+        description: "{{ doc('col_quantity') }}"
+      - name: extended_price
+        description: Importe bruto de la línea.
+      - name: discount
+        description: Ratio de descuento aplicado a la línea.
+      - name: tax
+        description: Ratio de impuesto aplicado a la línea.
+      - name: return_flag
+        description: Indicador técnico de devolución.
+      - name: line_status
+        description: "{{ doc('col_line_status') }}"
       - name: ship_date
+        description: Fecha de envío de la línea.
         data_tests:
           - not_null
+      - name: commit_date
+        description: Fecha comprometida para la línea.
+      - name: receipt_date
+        description: Fecha de recepción de la línea.
+      - name: ship_instruct
+        description: Instrucción logística de envío.
+      - name: ship_mode
+        description: Modo de envío utilizado.
+      - name: comment
+        description: Comentario libre de la línea en origen.
 
   - name: stg_customer
-    description: "Staging de clientes - carga total"
+    description: "{{ doc('stg_customer') }}"
     columns:
       - name: customer_key
+        description: "{{ doc('col_customer_key') }}"
         data_tests:
           - unique
           - not_null
+      - name: customer_name
+        description: "{{ doc('col_customer_name') }}"
+      - name: address
+        description: "{{ doc('col_address') }}"
       - name: nation_key
+        description: "{{ doc('col_nation_key') }}"
         data_tests:
           - not_null
+      - name: phone
+        description: "{{ doc('col_phone') }}"
+      - name: account_balance
+        description: Saldo de cuenta del cliente.
+      - name: market_segment
+        description: "{{ doc('col_market_segment') }}"
+      - name: comment
+        description: Comentario libre del cliente en origen.
 
   - name: stg_supplier
-    description: "Staging de proveedores - carga total"
+    description: "{{ doc('stg_supplier') }}"
     columns:
       - name: supplier_key
+        description: "{{ doc('col_supplier_key') }}"
         data_tests:
           - unique
           - not_null
+      - name: supplier_name
+        description: "{{ doc('col_supplier_name') }}"
+      - name: address
+        description: "{{ doc('col_address') }}"
       - name: nation_key
+        description: "{{ doc('col_nation_key') }}"
         data_tests:
           - not_null
+      - name: phone
+        description: "{{ doc('col_phone') }}"
+      - name: account_balance
+        description: Saldo de cuenta del proveedor.
+      - name: comment
+        description: Comentario libre del proveedor en origen.
 
   - name: stg_part
-    description: "Staging de piezas - carga total"
+    description: "{{ doc('stg_part') }}"
     columns:
       - name: part_key
+        description: "{{ doc('col_part_key') }}"
         data_tests:
           - unique
           - not_null
+      - name: part_name
+        description: "{{ doc('col_part_name') }}"
+      - name: manufacturer
+        description: "{{ doc('col_manufacturer') }}"
+      - name: brand
+        description: "{{ doc('col_brand') }}"
+      - name: type
+        description: "{{ doc('col_type') }}"
+      - name: size
+        description: "{{ doc('col_size') }}"
+      - name: container
+        description: Tipo de contenedor del producto.
+      - name: retail_price
+        description: Precio de venta informado en origen.
+      - name: comment
+        description: Comentario libre del producto en origen.
 
   - name: stg_partsupp
-    description: "Staging de piezas-proveedor - carga total"
+    description: "{{ doc('stg_partsupp') }}"
     columns:
       - name: part_key
+        description: "{{ doc('col_part_key') }} en la relación producto-proveedor."
         data_tests:
           - not_null
       - name: supplier_key
+        description: "{{ doc('col_supplier_key') }} en la relación producto-proveedor."
         data_tests:
           - not_null
+      - name: available_quantity
+        description: Cantidad disponible del producto para ese proveedor.
+      - name: supply_cost
+        description: Coste de suministro del producto para ese proveedor.
+      - name: comment
+        description: Comentario libre de la relación producto-proveedor.
 
   - name: stg_nation
-    description: "Staging de naciones - carga total"
+    description: "{{ doc('stg_nation') }}"
     columns:
       - name: nation_key
+        description: "{{ doc('col_nation_key') }}"
         data_tests:
           - unique
           - not_null
+      - name: nation_name
+        description: Nombre de la nación.
       - name: region_key
+        description: "{{ doc('col_region_key') }}"
         data_tests:
           - not_null
+      - name: comment
+        description: Comentario libre de la nación en origen.
 
   - name: stg_region
-    description: "Staging de regiones - carga total"
+    description: "{{ doc('stg_region') }}"
     columns:
       - name: region_key
+        description: "{{ doc('col_region_key') }}"
         data_tests:
           - unique
           - not_null
-
+      - name: region_name
+        description: Nombre de la región.
+      - name: comment
+        description: Comentario libre de la región en origen.
 
   - name: customer_tracking
-    description: "Versión vigente de clientes desde customer_snapshot"
+    description: "{{ doc('customer_tracking') }}"
     columns:
       - name: customer_key
+        description: "{{ doc('col_customer_key') }} según el snapshot histórico."
         data_tests:
           - unique
           - not_null
+      - name: customer_name
+        description: Nombre vigente del cliente.
+      - name: address
+        description: Dirección vigente del cliente.
+      - name: nation_key
+        description: Clave de nación vigente del cliente.
+      - name: phone
+        description: Teléfono vigente del cliente.
+      - name: account_balance
+        description: Saldo de cuenta vigente del cliente.
+      - name: market_segment
+        description: Segmento de mercado vigente del cliente.
+      - name: comment
+        description: Comentario vigente del cliente.
+      - name: dbt_scd_id
+        description: "{{ doc('col_dbt_scd_id') }}"
+      - name: dbt_updated_at
+        description: "{{ doc('col_dbt_updated_at') }}"
+      - name: dbt_valid_from
+        description: "{{ doc('col_dbt_valid_from') }}"
+      - name: dbt_valid_to
+        description: "{{ doc('col_dbt_valid_to') }}"
 
   - name: order_tracking
-    description: "Versión vigente de órdenes desde orders_snapshot"
+    description: "{{ doc('order_tracking') }}"
     columns:
       - name: order_key
+        description: "{{ doc('col_order_key') }} según el snapshot histórico."
         data_tests:
           - unique
           - not_null
       - name: customer_key
+        description: "{{ doc('col_customer_key') }} asociada al pedido vigente."
         data_tests:
           - not_null
+      - name: order_status
+        description: Estado vigente del pedido.
+      - name: total_price
+        description: Importe total vigente del pedido.
+      - name: order_date
+        description: Fecha del pedido vigente.
+      - name: order_priority
+        description: Prioridad vigente del pedido.
+      - name: clerk
+        description: Responsable vigente asociado al pedido.
+      - name: ship_priority
+        description: Prioridad logística vigente del pedido.
+      - name: comment
+        description: Comentario vigente del pedido.
+      - name: dbt_scd_id
+        description: "{{ doc('col_dbt_scd_id') }}"
+      - name: dbt_updated_at
+        description: "{{ doc('col_dbt_updated_at') }}"
+      - name: dbt_valid_from
+        description: "{{ doc('col_dbt_valid_from') }}"
+      - name: dbt_valid_to
+        description: "{{ doc('col_dbt_valid_to') }}"

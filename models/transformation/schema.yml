@@ -1,0 +1,88 @@
+version: 2
+
+models:
+  - name: int_orders_enriched
+    description: "{{ doc('int_orders_enriched') }}"
+    columns:
+      - name: order_key
+        description: "{{ doc('col_order_key') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_key
+        description: "{{ doc('col_customer_key') }}"
+        data_tests:
+          - not_null
+      - name: order_status
+        description: "{{ doc('col_order_status') }}"
+      - name: total_price
+        description: Importe total reportado para el pedido.
+      - name: order_date
+        description: "{{ doc('col_order_date') }}"
+      - name: order_priority
+        description: Prioridad operativa original del pedido.
+      - name: clerk
+        description: "{{ doc('col_clerk') }}"
+      - name: ship_priority
+        description: "{{ doc('col_ship_priority') }}"
+      - name: comment
+        description: Comentario libre heredado del pedido.
+      - name: order_status_desc
+        description: Descripción legible del estado técnico del pedido.
+      - name: priority_category
+        description: Agrupación analítica de la prioridad del pedido en high, medium o low.
+
+  - name: int_lineitem_enriched
+    description: "{{ doc('int_lineitem_enriched') }}"
+    columns:
+      - name: lineitem_key
+        description: Clave única de línea de pedido heredada de `stg_lineitem`.
+        data_tests:
+          - unique
+          - not_null
+      - name: order_key
+        description: "{{ doc('col_order_key') }}"
+        data_tests:
+          - not_null
+      - name: part_key
+        description: "{{ doc('col_part_key') }}"
+      - name: supplier_key
+        description: "{{ doc('col_supplier_key') }}"
+      - name: line_number
+        description: "{{ doc('col_line_number') }}"
+      - name: quantity
+        description: "{{ doc('col_quantity') }}"
+      - name: extended_price
+        description: "{{ doc('col_extended_price') }}"
+      - name: discount
+        description: "{{ doc('col_discount') }}"
+      - name: tax
+        description: "{{ doc('col_tax') }}"
+      - name: return_flag
+        description: Código de devolución informado en origen.
+      - name: line_status
+        description: "{{ doc('col_line_status') }}"
+      - name: ship_date
+        description: Fecha de envío de la línea.
+      - name: commit_date
+        description: Fecha comprometida para la línea.
+      - name: receipt_date
+        description: Fecha de recepción efectiva de la línea.
+      - name: ship_instruct
+        description: Instrucción logística de envío.
+      - name: ship_mode
+        description: Modo de envío utilizado.
+      - name: comment
+        description: Comentario libre de la línea.
+      - name: discount_amount
+        description: Importe descontado calculado como `extended_price * discount`.
+      - name: discounted_price
+        description: Importe después de descuento y antes de impuestos.
+      - name: total_charge
+        description: Importe final de la línea incluyendo descuento e impuestos.
+      - name: delivery_days
+        description: Días transcurridos entre el envío y la recepción del pedido.
+      - name: ship_delay_days
+        description: Días de retraso respecto a la fecha comprometida de recepción.
+      - name: return_status_desc
+        description: Descripción legible del estado de devolución de la línea.

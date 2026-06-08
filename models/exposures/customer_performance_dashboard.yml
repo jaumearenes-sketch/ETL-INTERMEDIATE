@@ -5,8 +5,10 @@ exposures:
     maturity: medium
     url: https://your-bi-tool.example.com/dashboards/customer-performance
     description: >
-      Dashboard de performance de clientes para seguimiento de revenue,
-      actividad y comportamiento comercial.
+      Dashboard orientado al seguimiento del rendimiento comercial por cliente.
+      Consume métricas de pedidos y atributos de la dimensión de cliente para analizar
+      revenue, actividad, segmentación y comportamiento comercial en distintos cortes
+      temporales y geográficos.
 
     depends_on:
       - ref('fact_orders')
