@@ -1,4 +1,3 @@
--- snapshots/orders_snapshot.sql
 {% snapshot orders_snapshot %}
 
 {{
@@ -6,10 +5,29 @@
       target_schema='snapshots',
       unique_key='O_ORDERKEY',
       strategy='check',
-      check_cols=['O_ORDERSTATUS', 'O_TOTALPRICE']
+      check_cols=[
+        'O_CUSTKEY',
+        'O_ORDERSTATUS',
+        'O_TOTALPRICE',
+        'O_ORDERDATE',
+        'O_ORDERPRIORITY',
+        'O_CLERK',
+        'O_SHIPPRIORITY',
+        'O_COMMENT'
+      ]
     )
 }}
 
-SELECT * FROM {{ source('tpch', 'ORDERS') }}
+select
+    O_ORDERKEY,
+    O_CUSTKEY,
+    O_ORDERSTATUS,
+    O_TOTALPRICE,
+    O_ORDERDATE,
+    O_ORDERPRIORITY,
+    O_CLERK,
+    O_SHIPPRIORITY,
+    O_COMMENT
+from {{ source('tpch', 'ORDERS') }}
 
 {% endsnapshot %}
