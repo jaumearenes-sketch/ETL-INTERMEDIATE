@@ -1,0 +1,85 @@
+version: 2
+
+snapshots:
+  - name: customer_snapshot
+    description: >
+      Snapshot SCD tipo 2 de clientes basado en la source `tpch.CUSTOMER`.
+      Su objetivo es preservar la trazabilidad histórica de los atributos relevantes del cliente
+      cada vez que se detecta un cambio en los campos monitorizados por la estrategia `check`.
+      Este snapshot permite reconstruir el estado de un cliente en un momento dado,
+      analizar evolución de atributos maestros y dar soporte a modelos downstream como
+      `customer_tracking`.
+    columns:
+      - name: C_CUSTKEY
+        description: Clave natural del cliente en la tabla origen CUSTOMER.
+        data_tests:
+          - not_null
+      - name: C_NAME
+        description: Nombre del cliente en origen.
+      - name: C_ADDRESS
+        description: Dirección registrada del cliente en origen.
+      - name: C_NATIONKEY
+        description: Clave de nación asociada al cliente.
+      - name: C_PHONE
+        description: Teléfono informado para el cliente.
+      - name: C_ACCTBAL
+        description: Saldo de cuenta del cliente en origen.
+      - name: C_MKTSEGMENT
+        description: Segmento de mercado asignado al cliente.
+      - name: C_COMMENT
+        description: Comentario libre del registro de cliente en origen.
+      - name: dbt_scd_id
+        description: "{{ doc('col_dbt_scd_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: dbt_updated_at
+        description: "{{ doc('col_dbt_updated_at') }}"
+      - name: dbt_valid_from
+        description: "{{ doc('col_dbt_valid_from') }}"
+        data_tests:
+          - not_null
+      - name: dbt_valid_to
+        description: "{{ doc('col_dbt_valid_to') }}"
+
+  - name: orders_snapshot
+    description: >
+      Snapshot SCD tipo 2 de pedidos basado en la source `tpch.ORDERS`.
+      Preserva la trazabilidad histórica de atributos relevantes del pedido y permite
+      reconstruir el estado de cada orden a lo largo del tiempo. Sirve como capa histórica
+      para consumo downstream, especialmente en `order_tracking` y en análisis de evolución
+      operativa y comercial.
+    columns:
+      - name: O_ORDERKEY
+        description: Clave natural del pedido en la tabla origen ORDERS.
+        data_tests:
+          - not_null
+      - name: O_CUSTKEY
+        description: Clave del cliente asociado al pedido.
+      - name: O_ORDERSTATUS
+        description: Estado técnico del pedido en origen.
+      - name: O_TOTALPRICE
+        description: Importe total del pedido registrado en origen.
+      - name: O_ORDERDATE
+        description: Fecha del pedido en origen.
+      - name: O_ORDERPRIORITY
+        description: Prioridad operativa asignada al pedido.
+      - name: O_CLERK
+        description: Identificador del responsable o clerk asociado al pedido.
+      - name: O_SHIPPRIORITY
+        description: Prioridad logística de envío del pedido.
+      - name: O_COMMENT
+        description: Comentario libre del pedido en origen.
+      - name: dbt_scd_id
+        description: "{{ doc('col_dbt_scd_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: dbt_updated_at
+        description: "{{ doc('col_dbt_updated_at') }}"
+      - name: dbt_valid_from
+        description: "{{ doc('col_dbt_valid_from') }}"
+        data_tests:
+          - not_null
+      - name: dbt_valid_to
+        description: "{{ doc('col_dbt_valid_to') }}"

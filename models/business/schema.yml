@@ -2,16 +2,19 @@ version: 2
 
 models:
   - name: fact_orders
-    description: "Tabla de hechos a nivel de línea de pedido con métricas de revenue, logística y claves hacia las dimensiones conformadas."
+    description: "{{ doc('fact_orders') }}"
     columns:
       - name: fact_key
+        description: Clave surrogate de la tabla de hechos a nivel de línea de pedido.
         data_tests:
           - unique
           - not_null
       - name: order_key
+        description: "{{ doc('col_order_key') }} asociada a la línea de hecho."
         data_tests:
           - not_null
       - name: customer_key
+        description: "{{ doc('col_customer_key') }} relacionada con la línea de pedido."
         data_tests:
           - not_null
           - relationships:
@@ -19,6 +22,7 @@ models:
                 to: ref('dim_customer')
                 field: customer_key
       - name: part_key
+        description: "{{ doc('col_part_key') }} relacionada con la línea de pedido."
         data_tests:
           - not_null
           - relationships:
@@ -26,6 +30,7 @@ models:
                 to: ref('dim_part')
                 field: part_key
       - name: supplier_key
+        description: "{{ doc('col_supplier_key') }} relacionada con la línea de pedido."
         data_tests:
           - not_null
           - relationships:
@@ -33,6 +38,7 @@ models:
                 to: ref('dim_supplier')
                 field: supplier_key
       - name: order_date_key
+        description: Clave de fecha del pedido.
         data_tests:
           - not_null
           - relationships:
@@ -40,6 +46,7 @@ models:
                 to: ref('dim_date')
                 field: date_key
       - name: ship_date_key
+        description: Clave de fecha de envío.
         data_tests:
           - not_null
           - relationships:
@@ -47,6 +54,7 @@ models:
                 to: ref('dim_date')
                 field: date_key
       - name: commit_date_key
+        description: Clave de fecha comprometida.
         data_tests:
           - not_null
           - relationships:
@@ -54,6 +62,7 @@ models:
                 to: ref('dim_date')
                 field: date_key
       - name: receipt_date_key
+        description: Clave de fecha de recepción.
         data_tests:
           - not_null
           - relationships:
@@ -61,42 +70,52 @@ models:
                 to: ref('dim_date')
                 field: date_key
       - name: quantity
+        description: "{{ doc('col_quantity') }}"
         data_tests:
           - not_null
       - name: extended_price
+        description: "{{ doc('col_extended_price') }}"
         data_tests:
           - not_null
       - name: discount
+        description: "{{ doc('col_discount') }}"
         data_tests:
           - not_null
       - name: tax
+        description: "{{ doc('col_tax') }}"
         data_tests:
           - not_null
       - name: net_amount
+        description: Importe neto después de descuento y antes de impuestos.
         data_tests:
           - not_null
       - name: gross_amount
+        description: Importe final de la línea incluyendo impuestos.
         data_tests:
           - not_null
       - name: return_flag
+        description: Indicador técnico de devolución de la línea.
         data_tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['A', 'N', 'R']
       - name: line_status
+        description: "{{ doc('col_line_status') }}"
         data_tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['F', 'O']
       - name: order_status
+        description: "{{ doc('col_order_status') }}"
         data_tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['F', 'O', 'P']
       - name: priority_category
+        description: Categorización analítica de la prioridad del pedido.
         data_tests:
           - not_null
           - accepted_values:
@@ -104,33 +123,97 @@ models:
                 values: ['high', 'medium', 'low']
 
   - name: dim_customer
-    description: "Dimension cliente con geografia"
+    description: "{{ doc('dim_customer') }}"
     columns:
       - name: customer_key
+        description: "{{ doc('col_customer_key') }}"
         data_tests:
           - unique
           - not_null
+      - name: customer_name
+        description: "{{ doc('col_customer_name') }}"
+      - name: address
+        description: "{{ doc('col_address') }}"
+      - name: phone
+        description: Teléfono de contacto del cliente.
+      - name: account_balance
+        description: Saldo de cuenta del cliente informado en origen.
+      - name: market_segment
+        description: "{{ doc('col_market_segment') }}"
+      - name: nation_name
+        description: Nación asociada al cliente.
+      - name: region_name
+        description: Región asociada al cliente a través de la jerarquía geográfica.
 
   - name: dim_supplier
-    description: "Dimension proveedor con geografia"
+    description: "{{ doc('dim_supplier') }}"
     columns:
       - name: supplier_key
+        description: "{{ doc('col_supplier_key') }}"
         data_tests:
           - unique
           - not_null
+      - name: supplier_name
+        description: "{{ doc('col_supplier_name') }}"
+      - name: address
+        description: "{{ doc('col_address') }}"
+      - name: phone
+        description: Teléfono de contacto del proveedor.
+      - name: account_balance
+        description: Saldo de cuenta del proveedor informado en origen.
+      - name: nation_name
+        description: Nación asociada al proveedor.
+      - name: region_name
+        description: Región asociada al proveedor a través de la jerarquía geográfica.
 
   - name: dim_part
-    description: "Dimension pieza/producto"
+    description: "{{ doc('dim_part') }}"
     columns:
       - name: part_key
+        description: "{{ doc('col_part_key') }}"
         data_tests:
           - unique
           - not_null
+      - name: part_name
+        description: "{{ doc('col_part_name') }}"
+      - name: manufacturer
+        description: "{{ doc('col_manufacturer') }}"
+      - name: brand
+        description: "{{ doc('col_brand') }}"
+      - name: type
+        description: "{{ doc('col_type') }}"
+      - name: size
+        description: "{{ doc('col_size') }}"
+      - name: container
+        description: "{{ doc('col_container') }}"
+      - name: retail_price
+        description: "{{ doc('col_retail_price') }}"
 
   - name: dim_date
-    description: "Dimension fecha"
+    description: "{{ doc('dim_date') }}"
     columns:
       - name: date_key
+        description: "{{ doc('col_date_key') }}"
         data_tests:
           - unique
           - not_null
+      - name: year
+        description: Año calendario de la fecha.
+      - name: quarter
+        description: Trimestre calendario de la fecha.
+      - name: month
+        description: Número de mes calendario.
+      - name: month_name
+        description: Nombre del mes.
+      - name: week_of_year
+        description: Número de semana del año.
+      - name: day_of_week
+        description: Número del día de la semana.
+      - name: day_name
+        description: Nombre del día de la semana.
+      - name: day_of_month
+        description: Día del mes.
+      - name: is_weekend
+        description: Indicador booleano que marca si la fecha cae en fin de semana.
+      - name: is_december_weekend
+        description: Indicador booleano que marca si la fecha cae en fin de semana dentro del mes de diciembre.
