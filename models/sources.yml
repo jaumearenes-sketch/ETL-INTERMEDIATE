@@ -2,11 +2,16 @@ version: 2
 
 sources:
   - name: tpch
+    description: >
+      Fuente raw basada en el dataset de ejemplo TPCH disponible en Snowflake.
+      Sirve como capa de entrada para los modelos staging y representa tablas operacionales
+      de clientes, pedidos, líneas de pedido, productos, proveedores y jerarquías geográficas.
     database: SNOWFLAKE_SAMPLE_DATA
     schema: TPCH_SF1
 
     tables:
       - name: ORDERS
+        description: Tabla de pedidos a nivel de orden.
         config:
           loaded_at_field: cast(O_ORDERDATE as timestamp_tz)
           freshness:
@@ -14,6 +19,7 @@ sources:
             error_after: {count: 25000, period: day}
 
       - name: LINEITEM
+        description: Tabla transaccional de líneas de pedido a nivel de detalle.
         config:
           loaded_at_field: cast(L_SHIPDATE as timestamp_tz)
           freshness:
@@ -21,8 +27,14 @@ sources:
             error_after: {count: 25000, period: day}
 
       - name: CUSTOMER
+        description: Maestro de clientes con atributos identificativos, segmentación y localización.
       - name: SUPPLIER
+        description: Maestro de proveedores con atributos identificativos y geográficos.
       - name: PART
+        description: Maestro de productos o piezas.
       - name: PARTSUPP
+        description: Tabla de relación entre productos y proveedores con información de suministro.
       - name: NATION
+        description: Catálogo de naciones asociado a la jerarquía geográfica.
       - name: REGION
+        description: Catálogo de regiones como nivel geográfico superior.
