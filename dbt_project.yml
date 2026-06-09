@@ -13,12 +13,20 @@ models:
   tpch_dimensional:
     +pre-hook: "{{ insert_audits('model_start') }}"
     +post-hook: "{{ insert_audits('model_end') }}"
+
     staging:
       +materialized: table
       +schema: staging
+      +tags: [staging]
     transformation:
       +materialized: view
       +schema: transformation
+      +tags: [transformation]
+      +grants:
+        select: "{{ [env_var('DBT_CONSUMER_ROLE', 'REPORTER')] if env_var('DBT_MY_ENV', '') == 'prod' else [] }}"
     business:
       +materialized: table
       +schema: business
+      +tags: [business]
+      +grants:
+        select: "{{ [env_var('DBT_CONSUMER_ROLE', 'REPORTER')] if env_var('DBT_MY_ENV', '') == 'prod' else [] }}"
