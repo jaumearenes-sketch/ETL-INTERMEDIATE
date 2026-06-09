@@ -2,16 +2,19 @@ from prefect import flow
 from prefect_dbt.cloud import DbtCloudJob
 
 @flow
-def lanzar_mi_modelo_dbt():
-    # Cargamos el bloque con el nombre correcto: "segonaprova"
-    dbt_cloud_job = DbtCloudJob.load("segonaprova")
-    
-    print("Iniciando el trabajo en dbt Cloud...")
-    # Lanzamos la ejecución del trabajo
-    resultado = dbt_cloud_job.trigger()
-    
-    print("¡Trabajo de dbt completado con éxito!")
-    return resultado
+def lanzar_primer_job():
+    job = DbtCloudJob.load("job-staging")
+    print("Lanzando el primer trabajo de dbt job-staging")
+    job.trigger()
 
-if __name__ == "__main__":
-    lanzar_mi_modelo_dbt()
+@flow
+def lanzar_segundo_job():
+    job = DbtCloudJob.load("job-transformation")
+    print("Lanzando el segundo trabajo de dbt job-transformation")
+    job.trigger()
+
+@flow
+def lanzar_tercer_job():
+    job = DbtCloudJob.load("job-business")
+    print("Lanzando el tercer trabajo de dbt job-business")
+    job.trigger()
