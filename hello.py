@@ -3,7 +3,7 @@ from prefect import flow, task
 
 @task
 def create_message():
-    msg = 'Hello from a task!'
+    msg = 'Hello from a task!!'
     return msg
 
 @flow
