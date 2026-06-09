@@ -16,9 +16,12 @@ models:
     staging:
       +materialized: table
       +schema: staging
+      +tags: ['staging']
     transformation:
       +materialized: view
       +schema: transformation
+      +tags: ['transformation']
     business:
       +materialized: table
       +schema: business
+      +tags: ['business']
