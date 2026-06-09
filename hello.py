@@ -12,10 +12,10 @@ def something_else():
     return (result)
 
 @flow
-def hello_world():
+def hello_world_iminthecenteroftheworld():
     sub_flow_message = something_else()
     task_message = create_message()
     new_message = task_message + str(sub_flow_message)
     print(new_message)
 
-hello_world()
+hello_world_iminthecenteroftheworld()
