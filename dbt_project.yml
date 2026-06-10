@@ -21,7 +21,13 @@ models:
       +materialized: view
       +schema: transformation
       +tags: ['transformation']
+      +grants:
+        select: "{{ [env_var('DBT_CONSUMER_ROLE', 'REPORTER')] if target.name == 'prod' else [] }}"
+
     business:
       +materialized: table
       +schema: business
       +tags: ['business']
+      +grants:
+        select: "{{ [env_var('DBT_CONSUMER_ROLE', 'REPORTER')] if target.name == 'prod' else [] }}"
+
